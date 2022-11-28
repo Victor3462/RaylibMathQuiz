@@ -13,11 +13,26 @@ string currentMenu = "start";
 
 int points = 0;
 
+int framesTimer = 0;
+
+int time = 30;
+
+void startTimer()
+{
+    framesTimer++;
+    if (framesTimer == 60)
+    {
+        time--;
+        framesTimer = 0;
+    }
+}
+
 
 while (!Raylib.WindowShouldClose())
 {
 
     Raylib.BeginDrawing();
+
 
     if (currentMenu == "start")
     {
@@ -32,6 +47,17 @@ while (!Raylib.WindowShouldClose())
             currentMenu = "playingQuiz";
         }
 
+    }
+
+    if (currentMenu != "start" && currentMenu != "gameOver")
+    {
+        Raylib.DrawText($"{time}", 25, 25, 125, Color.RED);
+        startTimer();
+    }
+
+    if (time == 0)
+    {
+        currentMenu = "gameOver";
     }
 
     if (currentMenu == "playingQuiz")
@@ -203,7 +229,7 @@ while (!Raylib.WindowShouldClose())
 
         Raylib.DrawText("Question 7:", 215, 75, 75, Color.RED);
 
-        Raylib.DrawText(" 56 / 7 = ?", 275, 225, 50, Color.WHITE);
+        Raylib.DrawText(" 56 / 7 = ?", 250, 225, 50, Color.WHITE);
 
         Raylib.DrawText("1: 16  2: 8  3: 12", 175, 350, 50, Color.WHITE);
 
@@ -301,6 +327,17 @@ while (!Raylib.WindowShouldClose())
         {
             currentMenu = "gameOver";
         }
+
+    }
+
+    else if (currentMenu == "gameOver")
+    {
+
+        Raylib.ClearBackground(backroundColor);
+
+        Raylib.DrawText("GAME OVER", 175, 75, 75, Color.RED);
+
+        Raylib.DrawText($"You got {points}/10 points", 175, 225, 50, Color.WHITE);
 
     }
 
